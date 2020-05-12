@@ -28,7 +28,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = (os.environ.get('DEBUG_VALUE') == 'True')
 
 # add actual hots in development
-ALLOWED_HOSTS = ['https://paperhub-prototype.herokuapp.com/']
+ALLOWED_HOSTS = [
+    'paperhub-prototype.herokuapp.com',
+]
+
+if DEBUG:
+    ALLOWED_HOSTS.extend(['0.0.0.0', '127.0.0.1'])
 
 
 # Application definition
