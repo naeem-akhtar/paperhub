@@ -1,0 +1,49 @@
+<div class="container">
+{% if posts %}
+  <div>
+    {% for post in posts %}
+      {% include 'posts/post.html' %}
+    {% endfor %}
+  </div>
+
+  <div class="" aria-label="...">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+        <li class="page-item mx-1">
+          <a class="btn page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled  mx-1">
+          <a class="btn page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+      {% endif %}
+
+      {% for i in page_obj.paginator.page_range %}
+        {% if page_obj.number == i %}
+          <li class="page-item active  mx-1">
+            <a class="btn page-link" href="#">{{i}}<span class="sr-only">(current)</span></a>
+          </li>
+        {% elif i < page_obj.number|add:5 and i >= page_obj.number|add:-5 %}
+          <li class="page-item  mx-1">
+            <a class="btn page-link" href="?page={{ i }}">{{i}}<span class="sr-only">(current)</span></a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <li class="page-item  mx-1">
+          <a class="btn page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled  mx-1">
+          <a class="btn page-link" href="#" tabindex="-1">Next</a>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+{% else %}
+  <div class="h5 pt-3 d-flex justify-content-around">
+      No Post to show.
+  </div>
+{% endif %}
+</div>

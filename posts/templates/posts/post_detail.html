@@ -1,0 +1,79 @@
+{% extends "papers/base.html" %}
+
+{% load static %}
+{% block javascript %}
+  <script src="{% static 'posts/js/ajax_bookmark.js' %}" type="text/javascript"></script>
+{% endblock %}
+
+{% block content %}
+  <div class="card my-2 shadow">
+    <div class="card-body">
+      <div class="container">
+        <div class="row justify-content-start"> 
+          <div class="col-1 pr-0 image">
+            <img class="img-fluid rounded-circle thumbnail" src="{{ post.author.profile.image.url }}">
+          </div>
+          <div class="col">
+            <div class="container pl-1">
+              <div class="row">
+                <div class="col-8">
+                  <div class="row">
+                    <a class="col-12" href="{% url 'profile' post.author.username %}">
+                      {{ post.author.first_name|add:" "|add:post.author.last_name|title }}
+                    </a>
+                    {% if post.author.profile.bio %}
+                      <small class="col-12 text-muted">{{ post.author.profile.bio|truncatechars:80 }}</small>
+                    {% else %}
+                    <small class="col-12 text-muted">{{ post.author.email }}</small>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="col text-right">
+                  <small class="text-muted">{{ post.date_posted | date:"d F, Y" }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% if user.is_authenticated %}
+            <div style="cursor:pointer;" title="bookmark" class="col-1 bookmark" id="bookmark-{{post.pk}}">
+              {% if user.username in post.bookmark_username %}
+                <i class="fa fa-bookmark fa-2x" aria-hidden="true"></i>
+              {% else %}
+                <i class="fa fa-bookmark-o fa-2x" aria-hidden="true"></i>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+        <hr>
+        <div class="row mt-1">
+          <div class="col">
+            <a style="color:inherit" class="h4" href="{% url 'post-detail' post.id %}">{{ post.title|capfirst }}</a></h2>
+          </div>
+          <div class="col-2 text-right">
+            {% if post.author == user %}
+              <a title="Edit" style="color:green" class="p-1" href="{% url 'post-update' object.id %}">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a title="Delete" style="color:red" class="p-1" href="{% url 'post-delete' object.id %}">
+                <i class="fa fa-trash"></i>
+              </a>
+            {% endif %}
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col">
+            <p class="">{{ post.description|capfirst }}</p>
+          </div>
+        </div>
+        <div class="row text-right">
+          {% if user.is_authenticated %}
+            <a class="col btn btn-outline-success"  role="button" href="{{ post.document.url }}" download>Download</a>
+          {% else %}
+            <a class="col btn btn-secondary disabled"  role="button" href="#" >Login to Download</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

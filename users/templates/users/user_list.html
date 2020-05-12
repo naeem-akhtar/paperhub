@@ -1,0 +1,25 @@
+{% extends 'papers/base.html' %}
+
+{% block content %}
+	<div class="container">
+		{% for user in users %}
+			<div class="card container p-2 m-1">
+				<div class="row ">
+					<!-- user Avatar -->
+					<div class="col-1 px-1 image">
+						 <img class="img-fluid rounded-circle thumbnail" src="{{ user.profile.image.url }}">
+					</div>
+					<!-- User name and username -->
+					<div class="col">
+						<div class="row">
+							<p>@{{ user.username }}</p>
+							<a  href="{% url 'profile' user.username %}">
+		            ( {{ user.first_name|add:" "|add:user.last_name|title }} )
+		          </a>
+		        </div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

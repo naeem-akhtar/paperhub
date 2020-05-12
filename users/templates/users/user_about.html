@@ -1,0 +1,36 @@
+<div class="container">
+	<table class="table table-borderless">
+		<tbody>
+			<tr>
+				<th scope="row"></th>
+				<td>email</td><td>{{profile.user.email}}</td>
+			</tr>
+			<tr>
+				<th scope="row"></th>
+				<td>DOB</td>
+				<td>
+					{% if profile.dob %}
+						{{profile.dob}}
+					{% else %}
+						<small class="text-muted">Hidden</small>
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"></th>
+				<td>Gender</td><td>{{profile.gender|title}}</td>
+			</tr>	
+			<tr>
+				<th scope="row"></th>
+				<td>Bio</td>
+				<td>
+					{% if profile.Bio %}
+						{{profile.Bio}}
+					{% else %}
+						<small class="text-muted">No bio avialabe</small>
+					{% endif %}
+				</td>
+			</tr>	
+		</tbody>
+	</table>
+</div>

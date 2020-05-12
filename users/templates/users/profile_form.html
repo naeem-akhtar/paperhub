@@ -1,0 +1,36 @@
+{% extends "papers/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <div class="card shadow-sm">
+    <div class="container">
+    <div class="container py-3">
+      <div class="row">
+        <div class="col-2">
+          <img class="img-fluid rounded-circle thumbnail" src="{{ user.profile.image.url }}">
+        </div>
+        <div class="col">
+          <div class="row">
+            <h2 class="col">{{ user.first_name|add:" "|add:user.last_name|title }}</h2>
+          </div>
+          <div class="row">
+            <p class="col text-muted">{{ user.email }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container my-2">
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+          <legend class="border-bottom mb-4"></legend>
+          {{ u_form|crispy }}
+          {{ p_form|crispy }}
+          <div class="form-group mt-2 text-right">
+            <button class="btn btn-outline-info" type="submit">Update</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    </div>
+  </div>
+{% endblock content %}

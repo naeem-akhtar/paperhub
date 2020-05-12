@@ -1,0 +1,61 @@
+<div class="card shadow-sm rounded my-3">
+  <div class="card-body">
+    <div class="container">
+      <div class="row justify-content-start"> 
+        <!-- User Avatar -->
+        <div class="col-1 p-1" title="User-Avatar">
+          <img class="img-fluid rounded-circle thumbnail" src="{{ post.author.profile.thumbnail.url }}" alt="Avatar">
+        </div>
+        <div class="col">
+          <div class="container pl-1">
+            <div class="row text-left">
+              <!-- username -->
+              <div class="col-8">
+                <a title="User Name" href="{% url 'profile' post.author.username %}">
+                  {{ post.author.first_name|add:" "|add:post.author.last_name|title }}
+                </a>
+              </div>
+              <!-- date -->
+              <div class="col text-right">
+                <small class="text-muted">{{ post.date_posted | date:"d F, Y" }}</small>
+              </div>
+            </div>
+            <!-- user info -->
+            <div class="row">
+              {% if post.author.profile.bio %}
+                <small title="User Bio" class="col-12 text-muted">{{ post.author.profile.bio|truncatechars:80 }}</small>
+              {% else %}
+                <small title="User email" class="col-12 text-muted">{{ post.author.email }}</small>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <!-- bookmark -->
+        {% if user.is_authenticated %}
+          <div style="cursor:pointer;" title="bookmark" class="col-1 bookmark" id="bookmark-{{post.pk}}">
+            {% if user.username in post.bookmark_username %}
+              <i class="fa fa-bookmark fa-2x" aria-hidden="true"></i>
+            {% else %}
+              <i class="fa fa-bookmark-o fa-2x" aria-hidden="true"></i>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+      <hr>
+      <!-- post title -->
+      <div class="row mt-1">
+        <div class="col">
+          <a style="color:inherit" title="Post title" class="h4" href="{% url 'post-detail' post.id %}">
+            {{ post.title|title|truncatechars:80}}
+          </a>
+        </div>
+      </div>
+      <!-- post description -->
+      <div class="row">
+        <div class="col">
+          <p title="Post description">{{ post.description|capfirst|truncatechars:150 }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

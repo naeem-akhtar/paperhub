@@ -1,0 +1,49 @@
+{% extends 'papers/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+	<div class="card shadow-sm my-3 p-3 px-5 container">
+		<div class="row">
+			<div class="col">
+				 <!-- errors in crispy form field -->
+        <!-- {% if form.errors %}
+          {% for field in form %}
+            {% for error in field.errors %}
+              <div class="alert alert-danger">
+                {{ error|escape }}
+              </div>
+            {% endfor %}
+          {% endfor %}
+          {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+              {{ error|escape }}
+            </div>
+          {% endfor %}
+        {% endif %} -->
+				<form method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<fieldset class="form-group">
+						{% if object %}
+							<legend class="border-bottom mb-4">Update paper</legend>				
+						{% else %}
+							<legend class="border-bottom mb-4">Post paper</legend>
+						{% endif %}
+						{{ form|crispy }}
+						<div class="form-group row">
+							{% if object %}
+								<div class="col text-right">
+									<a class="btn btn-outline-info" href="{% url 'post-detail' object.id%}">Cancel</a>		
+									<button class="btn btn-outline-success" type="submit">Update</button>		
+								</div>				
+							{% else %}
+								<div class="col text-right">
+									<a class="btn btn-outline-info" href="{% url 'home' %}">Cancel</a>		
+									<button class="btn btn-outline-success" type="submit">Post</button>		
+								</div>				
+							{% endif %}
+						</div>
+					</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>	
+{% endblock content %}
