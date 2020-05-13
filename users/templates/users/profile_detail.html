@@ -9,48 +9,50 @@
 {% load crispy_forms_tags %}
 {% block content %}
   <!-- user profile top section -->
-  <div class="shadow-sm card container py-3 my-3">
-    <div class="row">
-      <!-- user avatar -->
-      <div class="col col-3 image">
-        <img class="img-fluid img-thumbnail rounded-circle" src='{{ profile.image.url }}'>
-      </div>
-      <!-- User basic info -->
-      <div class="col">
-        <!-- user name -->
-        <div class="row">
-          <div class="col h5">
-            {{ profile.user.first_name|add:" "|add:profile.user.last_name|title }}
+  <div class="shadow-sm card">
+    <div class="container p-3">
+      <div class="row">
+        <!-- user avatar -->
+        <div class="col-lg-3 col-md-3 col-sm-4 col-8 m-auto">
+          <img class="img-fluid img-thumbnail rounded-circle" src='{{ profile.image.url }}'>
+        </div>
+        <!-- User basic info -->
+        <div class="col-lg-9 col-md-9 col-sm-8 col-12">
+          <div class="container p-3">
+            <div class="row ">
+              <!-- user name -->
+              <div class="col h5">
+                {{ profile.user.first_name|add:" "|add:profile.user.last_name|title }}
+              </div>
+              <!-- Edit / Follow / Unfollow -->
+              <div class="text-right">
+                {% if profile.user.username == user.get_username %}
+                  <a class="btn btn-outline-info" href="{% url 'profile-update' %}">edit</a>
+                {% else %}
+                  <button class="btn btn-outline-info" id="follow_unfollow">
+                    <p class="text-muted">loading..</p>
+                  </button>
+                {% endif %}
+              </div>
+            </div>
+            <!-- username -->
+            <div class="row">
+              <p class="col" id="user-username">@{{ profile.user.username }}</p>
+            </div>
+            <!-- User states -->
+            <div class="row d-flex justify-content-start">
+              <a class="p-2" href="{% url 'user-posts' profile.user.username %}">
+                {{ post_count }} Posts
+              </a>
+              <a class="p-2" href="{% url 'followers' profile.user.username %}">
+                {{ followers_count }} Followers
+              </a>
+              <a class="p-2" href="{% url 'following' profile.user.username %}">
+                {{ following_count }} Following
+              </a>
+            </div>
           </div>
         </div>
-        <!-- username -->
-        <div class="row">
-          <p class="col" id="user-username">@{{ profile.user.username }}</p>
-        </div>
-        <!-- User states -->
-        <div class="row">
-          <a href="{% url 'user-posts' profile.user.username %}" class="col">
-            <div class="row pb-0"><p>{{ post_count }}</p></div>
-            <div class="row"><p>Posts</p></div>
-          </a>
-          <a href="{% url 'followers' profile.user.username %}" class="col">
-            <div class="row pb-0"><p>{{ followers_count }}</p></div>
-            <div class="row"><p>Followers</p></div>
-          </a>
-          <a href="{% url 'following' profile.user.username %}" class="col">
-            <div class="row pb-0"><p>{{ following_count }}</p></div>
-            <div class="row"><p>Following</p></div>
-          </a>
-        </div>
-      </div>
-      <div class="col col-2 text-right">
-        {% if profile.user.username == user.get_username %}
-          <a class="btn btn-outline-info" href="{% url 'profile-update' %}">edit</a>
-        {% else %}
-          <button class="btn btn-outline-info" id="follow_unfollow">
-            <p class="text-muted">loading..</p>
-          </button>
-        {% endif %}
       </div>
     </div>
   </div>

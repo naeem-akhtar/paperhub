@@ -15,8 +15,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&family=Raleway&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" type='text/css' href="{% static 'papers/css/main.css' %}">
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
 <body>
@@ -67,7 +67,7 @@
   <main>
 	<div class="container mt-5">
     <div class="row">
-      <div class="col col-lg-9 col-md-12 col-sm-12">
+      <div class="col-12 col-lg-9 col-md-12 col-sm-12 col-xs-12" id=''>
         <!-- message  -->
         {% if messages %}
           {% for message in messages %}
@@ -77,12 +77,10 @@
           {% endfor %}
         {% endif %}
         <!-- actual content of website -->
-        <div class="container">
           {% block content %}
           {% endblock %}
-        </div>
       </div>
-      <div class="col col-lg-3 col-md-12 col-sm-12">
+      <div class="col-12 col-lg-3 col-md-12 col-sm-12 col-xs-12" id=''>
         <div class="card container my-3 p-2">
           <h3>Sidebar from Future</h3>
         </div>

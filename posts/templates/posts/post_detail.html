@@ -8,48 +8,53 @@
 {% block content %}
   <div class="card my-2 shadow">
     <div class="card-body">
-      <div class="container">
-        <div class="row justify-content-start"> 
-          <div class="col-1 pr-0 image">
-            <img class="img-fluid rounded-circle thumbnail" src="{{ post.author.profile.image.url }}">
+      <div class="container px-3">
+        <div class="row ">
+          <!-- User Avatar -->
+          <div class="col-lg-1 col-md-2 col-sm-2 col-4" title="User-Avatar">
+            <img class="img-fluid rounded-circle " src="{{ post.author.profile.thumbnail.url }}" alt="Avatar">
           </div>
-          <div class="col">
-            <div class="container pl-1">
-              <div class="row">
-                <div class="col-8">
-                  <div class="row">
-                    <a class="col-12" href="{% url 'profile' post.author.username %}">
-                      {{ post.author.first_name|add:" "|add:post.author.last_name|title }}
-                    </a>
-                    {% if post.author.profile.bio %}
-                      <small class="col-12 text-muted">{{ post.author.profile.bio|truncatechars:80 }}</small>
-                    {% else %}
-                    <small class="col-12 text-muted">{{ post.author.email }}</small>
-                    {% endif %}
-                  </div>
-                </div>
-                <div class="col text-right">
-                  <small class="text-muted">{{ post.date_posted | date:"d F, Y" }}</small>
-                </div>
-              </div>
+          <div class="col-lg-8 col-md-7 col-sm-7 col-8">
+            <!-- username -->
+            <div class="row px-1">
+              <a title="User Name" href="{% url 'profile' post.author.username %}">
+                {{ post.author.first_name|add:" "|add:post.author.last_name|title }}
+              </a>
             </div>
-          </div>
-          {% if user.is_authenticated %}
-            <div style="cursor:pointer;" title="bookmark" class="col-1 bookmark" id="bookmark-{{post.pk}}">
-              {% if user.username in post.bookmark_username %}
-                <i class="fa fa-bookmark fa-2x" aria-hidden="true"></i>
+            <!-- user info -->
+            <div class="row px-1">
+              {% if post.author.profile.bio %}
+                <small title="User Bio" class="text-muted">{{ post.author.profile.bio|truncatechars:80 }}</small>
               {% else %}
-                <i class="fa fa-bookmark-o fa-2x" aria-hidden="true"></i>
+                <small title="User email" class="text-muted">{{ post.author.email }}</small>
               {% endif %}
             </div>
-          {% endif %}
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-3">
+            <div class="row d-flex justify-content-end">
+              <!-- date -->
+              <div class="col text-right date">
+                <small class="text-muted">{{ post.date_posted | date:"d F, Y" }}</small>
+              </div>
+              <!-- bookmark -->
+              {% if user.is_authenticated %}
+                <div style="cursor:pointer;" title="bookmark" class="col-1 text-right bookmark" id="bookmark-{{post.pk}}">
+                  {% if user.username in post.bookmark_username %}
+                    <i class="fa fa-bookmark fa-2x" aria-hidden="true"></i>
+                  {% else %}
+                    <i class="fa fa-bookmark-o fa-2x" aria-hidden="true"></i>
+                  {% endif %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
         </div>
         <hr>
         <div class="row mt-1">
           <div class="col">
-            <a style="color:inherit" class="h4" href="{% url 'post-detail' post.id %}">{{ post.title|capfirst }}</a></h2>
+            <a style="color:inherit" class="h4" href="{% url 'post-detail' post.id %}">{{ post.title|capfirst }}</a>
           </div>
-          <div class="col-2 text-right">
+          <div class="col-lg-2 col-md-2 col-sm-3 col-1 text-right">
             {% if post.author == user %}
               <a title="Edit" style="color:green" class="p-1" href="{% url 'post-update' object.id %}">
                 <i class="fa fa-edit"></i>
@@ -60,7 +65,6 @@
             {% endif %}
           </div>
         </div>
-        <br>
         <div class="row">
           <div class="col">
             <p class="">{{ post.description|capfirst }}</p>
