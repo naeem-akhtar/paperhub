@@ -41,8 +41,14 @@
         <!-- view | date -->
         <div class="col text-left">
           {% load hitcount_tags %}
-          <small class="text-muted" id="hit-counted-value" title="views">{% get_hit_count for post %} views</small>
-          <small class="text-muted pl-2">{{ post.date_posted | date:"d F, Y" }}</small>
+          <small class="text-muted" id="hit-counted-value" title="views"> 
+            <i class="fa fa-eye">&nbsp</i>
+            {% get_hit_count for post %} views
+          </small>
+          <small class="text-muted pl-2">
+             <i class="fa fa-calendar">&nbsp</i>
+            {{ post.date_posted | date:"d F, Y" }}
+          </small>
         </div>
       </div>  
       <hr>

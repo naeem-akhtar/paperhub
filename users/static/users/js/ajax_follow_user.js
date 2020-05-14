@@ -1,13 +1,8 @@
-// To follow / unfollow user
-var follow_buttons = $('.follow_unfollow');
-var username = (document.getElementById('user-username').innerHTML).slice(1);
-
-// console.log(follow_button);
-
-FollowStatus = function(operation, follow_button) {
+// To check status and follow / unfollow user
+FollowStatus = function(url, operation, follow_button, username) {
 	// console.log(username);
 	$.ajax({
-		url : '/ajax/follow/user/',
+		url : url,
 		data : {
 			'username' : username,
 			'operation' : operation
@@ -28,18 +23,7 @@ FollowStatus = function(operation, follow_button) {
 	});
 }
 
-// check follow status
-follow_buttons.each(function() {
-  FollowStatus('check', $(this));
-  // console.log($(this));
-})
-
-// change follow status
-$('.follow_unfollow').click(function() {
-	FollowStatus('change', $(this));
-});
-
-follow_buttons.hover(
+$('.follow_unfollow').hover(
 	function() {
 		// console.log('bitch');
 		if($(this).html() == 'Following')

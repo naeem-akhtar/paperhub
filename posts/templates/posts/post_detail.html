@@ -68,13 +68,20 @@
           </div>
         </div>
         <div class="row pt-2">
-          <!-- date -->
-          <div class="col-8 text-left">
-            <small class="text-muted" id="hit-counted-value" title="views">{% get_hit_count for post %} views</small>
-            <small class="text-muted pl-2">{{ post.date_posted | date:"d F, Y" }}</small>
+          <div class="col-lg-8 col-md-8 col-sm-6 col-12 text-left">
+            <!-- views -->
+            <small class="text-muted" id="hit-counted-value" title="views"> 
+              <i class="fa fa-eye">&nbsp</i>
+              {% get_hit_count for post %} views
+            </small>
+            <!-- views -->
+            <small class="text-muted pl-2">
+               <i class="fa fa-calendar">&nbsp</i>
+              {{ post.date_posted | date:"d F, Y" }}
+            </small>
           </div>
           <!-- Edit / Delete -->
-          <div class="col-4 text-right">
+          <div class="col-lg-4 col-md-8 col-sm-6 col-12 text-right">
             {% if post.author == user %}
               <a title="Edit" style="color:green" class="p-1" href="{% url 'post-update' object.id %}">
                 <i class="fa fa-edit"></i>
@@ -97,11 +104,13 @@
           </div>
         </div>
         <div class="row text-right">
-          {% if user.is_authenticated %}
-            <a class="col btn btn-outline-success"  role="button" href="{{ post.document.url }}" download>Download</a>
-          {% else %}
-            <a class="col btn btn-secondary disabled"  role="button" href="#" >Login to Download</a>
-          {% endif %}
+          <div class="col disabled">
+            {% if user.is_authenticated %}
+              <a class="col btn btn-outline-success"  role="button" href="{{ post.document.url }}" download>Download</a>
+            {% else %}
+              <a style="color:inherit;" class="col btn btn-secondary" href="{% url 'login' %}" target="blank">Login to Download</a>
+            {% endif %}
+          </div>
         </div>
       </div>
     </div>
