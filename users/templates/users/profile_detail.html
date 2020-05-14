@@ -26,11 +26,17 @@
               </div>
               <!-- Edit / Follow / Unfollow -->
               <div class="text-right">
-                {% if profile.user.username == user.get_username %}
-                  <a class="btn btn-outline-info" href="{% url 'profile-update' %}">edit</a>
+                {% if user.is_authenticated %}
+                  {% if profile.user.username == user.get_username %}
+                    <a class="btn btn-outline-info" href="{% url 'profile-update' %}">edit</a>
+                  {% else %}
+                    <button class="btn btn-outline-info" id="follow_unfollow">
+                      <p class="p-0 text-muted">loading..</p>
+                    </button>
+                  {% endif %}
                 {% else %}
-                  <button class="btn btn-outline-info" id="follow_unfollow">
-                    <p class="text-muted">loading..</p>
+                  <button class="col btn btn-secondary disabled">
+                    <p class="m-0"> Login To Unlock </p>
                   </button>
                 {% endif %}
               </div>
@@ -74,7 +80,7 @@
           <div class="tab-pane fade" id="user-bookmark" role="tabpanel" aria-labelledby="nav-bookmark-tab">
           </div>
           <div class="tab-pane fade" id="#" role="tabpanel" aria-labelledby="nav-contact-tab">
-
+            
           </div>
         </div>
       </div>

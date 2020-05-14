@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import (
 	PostList, PostDetail, UserPostList, PostCreate, PostUpdate, PostDelete, PostBookmark, UserBookmarkPostList
 )
@@ -12,4 +12,6 @@ urlpatterns = [
 	path('post/<int:pk>/', PostDetail.as_view(), name='post-detail'),	# a single post
   path('post/<int:pk>/update/', PostUpdate.as_view(), name='post-update'), # update this post
   path('post/<int:pk>/delete/', PostDelete.as_view(), name='post-delete'), # delete this post
+  # hit counter for counting views
+  path('hitcount/', include('hitcount.urls', namespace='hitcount')),
 ]

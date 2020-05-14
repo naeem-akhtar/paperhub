@@ -4,9 +4,13 @@ from django.contrib.auth.models import AbstractUser
 from django.core.files import File
 from io import BytesIO
 from PIL import Image
-
+from django.core.exceptions import ValidationError
 
 # helping functions and classes
+def validate_DOB(value):
+	if False:
+		raise ValidationError(f'%s is not a valid date of birth.' % value)
+
 def crop_image(model_image, side=None):
 	image = Image.open(model_image)
 	if image.mode != 'RGB':
@@ -46,7 +50,7 @@ class Profile(models.Model):
 	user  = models.OneToOneField(User, on_delete = models.CASCADE)
 	image = models.ImageField('User Avatar', upload_to='profile_pictures', default='profile_pictures/default_thumbnail.jpg')
 	thumbnail = models.ImageField('User Avatar', upload_to='profile_pictures/thumbs', default='profile_pictures/default_thumbnail.jpg')
-	dob = models.DateField('DOB', null=True, blank=True)
+	dob = models.DateField('DOB', null=True, blank=True, validators=[validate_DOB])
 	gender = models.CharField('Gender', max_length=15, choices=GENDER, default='NOT_SPECIFIED')
 	bio = models.TextField('Bio', max_length=500, blank=True)
 

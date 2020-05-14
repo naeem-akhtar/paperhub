@@ -1,4 +1,5 @@
 from django import forms
+from django.utils import timezone
 from .models import User, Profile, UserConnection
 from django.contrib.auth.forms import UserCreationForm
 
@@ -33,3 +34,4 @@ class ProfileUpdateForm(forms.ModelForm):
 	class Meta:
 		model = Profile
 		fields = ['gender', 'dob', 'image', 'bio']
+

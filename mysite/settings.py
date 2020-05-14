@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'social_django',
     'storages',
     'django_cleanup',
+    'hitcount',
 ]
 
 MIDDLEWARE = [
@@ -88,10 +89,10 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # To use loacl database, go to last line to user heroku database
 DATABASES = {
-#     # 'default': {
-#     #     'ENGINE': 'django.db.backends.sqlite3',
-#     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     # }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
     # 'default': {
     #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
     #     'NAME': 'paperhubdb',
