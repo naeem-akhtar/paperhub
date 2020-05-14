@@ -54,10 +54,6 @@
           </div>
           <div class="col-lg-3 col-md-3 col-sm-3 ">
             <div class="row d-flex justify-content-end">
-              <!-- date -->
-              <div class="col text-right">
-                <small class="text-muted">{{ post.date_posted | date:"d F, Y" }}</small>
-               </div>
               <!-- bookmark -->
               {% if user.is_authenticated %}
                 <div style="cursor:pointer;" title="bookmark" class="col-1 text-right bookmark" id="bookmark-{{post.pk}}">
@@ -71,13 +67,14 @@
             </div>
           </div>
         </div>
-        <hr>
-        <div class="row mt-1">
-          <div class="col">
-            <a style="color:inherit" class="h4" href="{% url 'post-detail' post.id %}">{{ post.title|capfirst }}</a>
+        <div class="row pt-2">
+          <!-- date -->
+          <div class="col-8 text-left">
+            <small class="text-muted" id="hit-counted-value" title="views">{% get_hit_count for post %} views</small>
+            <small class="text-muted pl-2">{{ post.date_posted | date:"d F, Y" }}</small>
           </div>
-          <div class="col-lg-2 col-md-2 col-sm-3 col-1 text-right">
-            <i class="fa fa-eye" id="hit-counted-value" title="views"> {% get_hit_count for post %}</i>
+          <!-- Edit / Delete -->
+          <div class="col-4 text-right">
             {% if post.author == user %}
               <a title="Edit" style="color:green" class="p-1" href="{% url 'post-update' object.id %}">
                 <i class="fa fa-edit"></i>
@@ -86,6 +83,12 @@
                 <i class="fa fa-trash"></i>
               </a>
             {% endif %}
+          </div>
+        </div>
+        <hr>
+        <div class="row mt-1">
+          <div class="col">
+            <a style="color:inherit" class="h4" href="{% url 'post-detail' post.id %}">{{ post.title|capfirst }}</a>
           </div>
         </div>
         <div class="row">

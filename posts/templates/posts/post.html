@@ -24,10 +24,6 @@
         </div>
         <div class="col-lg-3 col-md-3 col-sm-3 ">
           <div class="row d-flex justify-content-end">
-            <!-- date -->
-            <div class="col text-right date">
-              <small class="text-muted">{{ post.date_posted | date:"d F, Y" }}</small>
-            </div>
             <!-- bookmark -->
             {% if user.is_authenticated %}
               <div style="cursor:pointer;" title="bookmark" class="col-1 text-right bookmark" id="bookmark-{{post.pk}}">
@@ -40,6 +36,14 @@
             {% endif %}
           </div>
         </div>
+      </div>
+      <div class="row">
+        <!-- view | date -->
+        <div class="col text-left">
+          {% load hitcount_tags %}
+          <small class="text-muted" id="hit-counted-value" title="views">{% get_hit_count for post %} views</small>
+          <small class="text-muted pl-2">{{ post.date_posted | date:"d F, Y" }}</small>
+        </div>
       </div>  
       <hr>
       <!-- post title -->
@@ -48,10 +52,6 @@
           <a style="color:inherit" title="Post title" class="h4" href="{% url 'post-detail' post.id %}">
             {{ post.title|title|truncatechars:80}}
           </a>
-        </div>
-        <div class="col-lg-2 col-md-2 col-sm-3 col-1 text-right">
-          {% load hitcount_tags %}
-          <i class="fa fa-eye" id="hit-counted-value" title="views"> {% get_hit_count for post %}</i>
         </div>
       </div>
       <!-- post description -->

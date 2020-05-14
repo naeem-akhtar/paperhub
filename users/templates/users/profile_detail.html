@@ -30,7 +30,7 @@
                   {% if profile.user.username == user.get_username %}
                     <a class="btn btn-outline-info" href="{% url 'profile-update' %}">edit</a>
                   {% else %}
-                    <button class="btn btn-outline-info" id="follow_unfollow">
+                    <button class="btn btn-outline-info follow_unfollow">
                       <p class="p-0 text-muted">loading..</p>
                     </button>
                   {% endif %}

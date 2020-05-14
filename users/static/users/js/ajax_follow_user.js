@@ -1,10 +1,10 @@
 // To follow / unfollow user
-var follow_button = $('#follow_unfollow');
+var follow_buttons = $('.follow_unfollow');
 var username = (document.getElementById('user-username').innerHTML).slice(1);
 
 // console.log(follow_button);
 
-FollowStatus = function(operation) {
+FollowStatus = function(operation, follow_button) {
 	// console.log(username);
 	$.ajax({
 		url : '/ajax/follow/user/',
@@ -29,21 +29,24 @@ FollowStatus = function(operation) {
 }
 
 // check follow status
-FollowStatus('check');
+follow_buttons.each(function() {
+  FollowStatus('check', $(this));
+  // console.log($(this));
+})
 
 // change follow status
-follow_button.click(function() {
-	FollowStatus('change');
+$('.follow_unfollow').click(function() {
+	FollowStatus('change', $(this));
 });
 
-follow_button.hover(
+follow_buttons.hover(
 	function() {
 		// console.log('bitch');
-		if(follow_button.html() == 'Following')
-			follow_button.html('Unfollow');
+		if($(this).html() == 'Following')
+			$(this).html('Unfollow');
 	},
 	function() {
-		if(follow_button.html() == 'Unfollow')
-			follow_button.html('Following');
+		if($(this).html() == 'Unfollow')
+			$(this).html('Following');
 	}
 )

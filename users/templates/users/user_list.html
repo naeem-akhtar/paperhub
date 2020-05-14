@@ -7,27 +7,26 @@
 
 
 {% block content %}
-	<div class="container">
+	<div class="card container">
 		{% for user in users %}
-			<div class="card container p-2 m-1">
+			<div class=" container p-2 m-1">
 				<div class="row ">
 					<!-- user Avatar -->
-					<div class="col-lg-1 m-auto">
+					<div class="col-lg-1 col-md-1 col-sm-1 col-2 m-auto">
 						 <img class="img-fluid rounded-circle thumbnail" src="{{ user.profile.image.url }}">
 					</div>
 					<!-- User name and username -->
 					<div class="col">
 						<div class="row">
-							@
-							<a  style="color:inherit;" href="{% url 'profile' user.username %}">
-								{{ user.username }}
+							<a style="color:inherit;" href="{% url 'profile' user.username %}">
+								<p id="user-username">@{{ user.username }}</p>
 		          </a>
-		          <p>( {{ user.first_name|add:" "|add:user.last_name|title }} )</p>
+		          <!-- <p>( {{ user.first_name|add:" "|add:user.last_name|title }} )</p> -->
 		        </div>
 					</div>
 					<div class="col text-right">
-						<button class="btn btn-outline-info py-0" id="follow_unfollow">
-	            <p class="text-muted">loading..</p>
+						<button class="btn btn-outline-info py-0 follow_unfollow">
+	            loading..
 	          </button>
 					</div>
 				</div>
