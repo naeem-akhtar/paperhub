@@ -1,0 +1,31 @@
+{% load widget_tweaks %}
+
+<div class="container">
+	{% for hidden in filter.form.hidden_fields %}
+	  {{ hidden }}
+	{% endfor %}
+
+	<form class="row form" method='get'>
+		{% for field in filter.form.visible_fields %}
+			<!-- select dropdown menu -->
+			{% if field.field.widget.input_type == 'select' %}
+				<div class="col-lg-3 col-md-4 col-sm-6 col-6 form-group text-muted">
+					{{ field|add_class:'form-control form-control-sm' }}  
+				</div>
+			<!-- text input -->
+			{% else %}
+				<div class="col-lg-6 col-md-4 col-sm-12 col-12  input-group form-group text-muted">
+					{{ field|add_class:'form-control form-control-sm' }} 
+					<div class="input-group-append">
+						<button title="search" class="btn btn-sm btn-outline-success" type="submit">
+							<i class="fa fa-search"></i>
+						</button>
+					</div>
+				</div>
+		  {% endif %}
+		  {% for error in field.errors %}
+	      <span class="help-block">{{ error }}</span>
+	    {% endfor %}
+		{% endfor %}
+	</form>
+</div>

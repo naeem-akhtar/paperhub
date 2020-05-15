@@ -38,13 +38,13 @@
         </div>
       </div>
       <div class="row">
-        <!-- view | date -->
         <div class="col text-left">
-          {% load hitcount_tags %}
+          <!-- views -->
           <small class="text-muted" id="hit-counted-value" title="views"> 
             <i class="fa fa-eye">&nbsp</i>
-            {% get_hit_count for post %} views
+            {{ post.hit_count.hits }} views
           </small>
+          <!-- date -->
           <small class="text-muted pl-2">
              <i class="fa fa-calendar">&nbsp</i>
             {{ post.date_posted | date:"d F, Y" }}
