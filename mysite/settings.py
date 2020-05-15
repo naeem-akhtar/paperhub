@@ -95,14 +95,14 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # }
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'paperhubdb',
-        'USER': os.environ.get('PAPAERHUB_USER'),
-        'PASSWORD': os.environ.get('PSQL_PAPERHUBADMIN_PASS'),
-        'HOST': 'localhost',
-        'PORT': '',
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': 'paperhubdb',
+    #     'USER': os.environ.get('PAPAERHUB_USER'),
+    #     'PASSWORD': os.environ.get('PSQL_PAPERHUBADMIN_PASS'),
+    #     'HOST': 'localhost',
+    #     'PORT': '',
+    # }
 }
 
 
@@ -170,4 +170,4 @@ AWS_DOWNLOAD_EXPIRE = '5000'    # expire time (ms) for a S3 bucket doenload link
 from users.social_settings import *
 
 # To use heroku database
-# django_heroku.settings(locals())
+django_heroku.settings(locals())

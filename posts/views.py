@@ -27,7 +27,7 @@ class PostList(ListView):
 	paginate_by = 10
 
 	def get_queryset(self):
-		queryset=Post.objects.all()
+		queryset=Post.objects.all().order_by('-date_posted')
 		self.fpost =  PostFilter(self.request.GET, queryset)
 		return self.fpost.qs
 
