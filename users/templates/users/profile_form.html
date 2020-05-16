@@ -1,5 +1,8 @@
 {% extends "papers/base.html" %}
+
+{% load widget_tweaks %}
 {% load crispy_forms_tags %}
+
 {% block content %}
   <div class="card shadow-sm">
     <div class="container">
@@ -19,16 +22,38 @@
       </div>
     </div>
     <div class="container my-2">
+      {% for hidden in u_form.form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
+      {% for hidden in p_form.form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
       <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <fieldset class="form-group">
-          <legend class="border-bottom mb-4"></legend>
-          {{ u_form|crispy }}
-          {{ p_form|crispy }}
-          <div class="form-group mt-2 text-right">
-            <button class="btn btn-outline-info" type="submit">Update</button>
+        {% for field in u_form.visible_fields %}
+          <div class="col">
+            {{field |add_class:'form-control-sm' | as_crispy_field }}
           </div>
-        </fieldset>
+        {% endfor %}
+        {% render_field p_form.div_id_username %}
+        {% for field in p_form.visible_fields %}
+          <div class="col">
+          {% if field.name == 'dob' %}
+            <div id="div_id_dob" class="form-group">
+              <label for="id_dob_month" class="requiredField">Date of Birth</label>
+              <span class="asteriskField">*</span>
+              <div class="form-inline">
+                {{field |add_class:'selectdatewidget form-control form-control-sm col mx-1'}}
+              </div>
+            </div>
+          {% else %}
+              {{field |add_class:'form-control-sm' | as_crispy_field }}
+          {% endif %}
+          </div>
+        {% endfor %}
+        <div class="form-group mt-2 text-right">
+          <button class="btn btn-outline-info" type="submit">Update</button>
+        </div>
       </form>
     </div>
     </div>
