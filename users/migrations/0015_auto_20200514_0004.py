@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='profile',
             name='dob',
-            field=models.DateField(blank=True, null=True, validators=[users.models.validate_DOB], verbose_name='DOB'),
+            field=models.DateField(blank=True, null=True, verbose_name='DOB'),
         ),
     ]

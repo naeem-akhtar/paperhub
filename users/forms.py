@@ -2,6 +2,14 @@ from django import forms
 from django.utils import timezone
 from .models import User, Profile, UserConnection
 from django.contrib.auth.forms import UserCreationForm
+import datetime
+
+# helping functions
+def no_future_date(value):
+	if value >= datetime.date.today():
+		raise forms.ValidationError('Invalid Date of Birth')
+	return value
+
 
 # forms
 class UserRegistrationForm(UserCreationForm):
@@ -30,7 +38,13 @@ class DateInput(forms.DateInput):
 
 
 class ProfileUpdateForm(forms.ModelForm):
-	dob = forms.DateField(widget = DateInput)
+	dob = forms.DateField(
+		widget = forms.SelectDateWidget(
+			empty_label=("Year", "Month", "Day"),
+			years = range(1900, datetime.datetime.now().year)
+		),
+		validators=[no_future_date],
+	)
 	class Meta:
 		model = Profile
 		fields = ['gender', 'dob', 'image', 'bio']
