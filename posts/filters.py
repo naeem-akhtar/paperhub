@@ -8,26 +8,26 @@ from .postgres_search import post_search_result
 class PostFilter(django_filters.FilterSet):
 	date_posted = django_filters.DateRangeFilter(
 		label = 'date',
-		empty_label = 'Date'
+		empty_label = 'All time'
 	)
 	options = django_filters.OrderingFilter(
 		label = 'options',
 		choices = (
-			('latest', 'latest'),
+			# ('latest', 'latest'),
 			('views', 'most viewed'),
 			('bookmark', 'most bookmarked')
 		),
 		fields = {
-			'-date_posted' : 'latest',
+			# '-date_posted' : 'latest',
 			'-hit_count_generic__hits' : 'views',
 			'bookmark' : 'bookmark'
 		},
 		field_labels={
-			'date_posted': 'latest',
+			# 'date_posted': 'latest',
 			'hit_count_generic__hits' : 'views',
 			'bookmark' : 'bookmark',
 		},
-		empty_label = 'Options'
+		empty_label = 'latest'
 	)
 	# author__username = django_filters.CharFilter(
 	# 	label='', 
@@ -35,9 +35,9 @@ class PostFilter(django_filters.FilterSet):
 	#   widget=TextInput(attrs={'placeholder': '@username'}),
 	#  )
 	# Text-Based searching using postgres only.
-	post_seach = django_filters.CharFilter(
+	post_search = django_filters.CharFilter(
 		label = '',
-		widget = TextInput(attrs={'placeholder': 'post search'}),
+		widget = TextInput(attrs={'placeholder': 'Search a Post'}),
 		method = post_search_result,
 	)
 

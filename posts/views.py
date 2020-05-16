@@ -27,7 +27,7 @@ class PostList(ListView):
 	paginate_by = 10
 
 	def get_queryset(self):
-		queryset=Post.objects.all().order_by('-date_posted')
+		queryset = Post.objects.all().order_by('-date_posted')
 		self.fpost =  PostFilter(self.request.GET, queryset)
 		return self.fpost.qs
 
@@ -43,15 +43,15 @@ class PostDetail(DetailView):
 	context_object_name = 'post'
 
 # Posts by a single user
-class UserPostList(ListView):
-	model = Post
+class UserPostList(PostList):
 	template_name = 'posts/user_posts.html' # <app>/<model>_<viewtype>.html
-	context_object_name = 'posts'
-	paginate_by = 5
 
 	def get_queryset(self):
-		return Post.objects.filter(author__username = self.kwargs.get('username', None)).order_by('-date_posted')
-
+		queryset = Post.objects.filter(
+			author__username = self.kwargs.get('username', None)
+		).order_by('-date_posted')
+		self.fpost =  PostFilter(self.request.GET, queryset)
+		return self.fpost.qs
 
 # Create a post
 class PostCreate(LoginRequiredMixin, CreateView):
@@ -117,17 +117,16 @@ class PostBookmark(LoginRequiredMixin, View):
 
 
 # Bookmarked posts
-class UserBookmarkPostList(LoginRequiredMixin, UserPassesTestMixin, ListView):
-	model = Post
+class UserBookmarkPostList(LoginRequiredMixin, UserPassesTestMixin, PostList):
 	template_name = 'posts/user_bookmark.html' 
-	context_object_name = 'posts'
-	ordering = ['-date_posted']
-	paginate_by = 5
 
 	def test_func(self):
 		# only the login user can see thier own bookmarks, private stuffs
-		return (self.request.user.username == self.kwargs.get('username'))
+		return (self.request.user.username == self.kwargs.get('username', None))
 
 	def get_queryset(self):
-		username = self.kwargs.get('username')
-		return Post.objects.filter(bookmark__user__username = username).order_by('-date_posted')
+		queryset = Post.objects.filter(
+			bookmark__user__username = self.kwargs.get('username', None)
+		).order_by('-date_posted')
+		self.fpost =  PostFilter(self.request.GET, queryset)
+		return self.fpost.qs
