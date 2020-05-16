@@ -13,17 +13,17 @@ class PostFilter(django_filters.FilterSet):
 		label = 'options',
 		choices = (
 			('latest', 'latest'),
-			# ('views', 'most viewed'),
+			('views', 'most viewed'),
 			('bookmark', 'most bookmarked')
 		),
 		fields = {
 			'-date_posted' : 'latest',
-			# '-hit_count_generic__hits' : 'views',
+			'-hit_count_generic__hits' : 'views',
 			'bookmark' : 'bookmark'
 		},
 		field_labels={
 			'date_posted': 'latest',
-			# 'hit_count_generic__hits' : 'views',
+			'hit_count_generic__hits' : 'views',
 			'bookmark' : 'bookmark',
 		},
 		empty_label = 'Options'
