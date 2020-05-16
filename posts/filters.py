@@ -2,7 +2,8 @@ import django_filters
 from django.db import models
 from django.forms.widgets import TextInput
 from .models import Post
-from hitcount.models import HitCountMixin
+from .postgres_search import post_search_result
+
 
 class PostFilter(django_filters.FilterSet):
 	date_posted = django_filters.DateRangeFilter(
@@ -33,10 +34,11 @@ class PostFilter(django_filters.FilterSet):
 	# 	lookup_expr = 'icontains',
 	#   widget=TextInput(attrs={'placeholder': '@username'}),
 	#  )
-	title = django_filters.CharFilter(
+	# Text-Based searching using postgres only.
+	post_seach = django_filters.CharFilter(
 		label = '',
-		lookup_expr = 'icontains',
 		widget = TextInput(attrs={'placeholder': 'post search'}),
+		method = post_search_result,
 	)
 
 	class Meta:

@@ -95,14 +95,14 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'paperhubdb',
-    #     'USER': os.environ.get('PAPAERHUB_USER'),
-    #     'PASSWORD': os.environ.get('PSQL_PAPERHUBADMIN_PASS'),
-    #     'HOST': 'localhost',
-    #     'PORT': '',
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'paperhubdb',
+        'USER': os.environ.get('PAPAERHUB_USER'),
+        'PASSWORD': os.environ.get('PSQL_PAPERHUBADMIN_PASS'),
+        'HOST': 'localhost',
+        'PORT': '',
+    }
 }
 
 
