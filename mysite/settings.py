@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django_cleanup',
     'social_django',
     'django_filters',
+    'taggit',
 ]
 
 MIDDLEWARE = [
@@ -95,14 +96,14 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # }
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    #     'NAME': 'paperhubdb',
-    #     'USER': os.environ.get('PAPAERHUB_USER'),
-    #     'PASSWORD': os.environ.get('PSQL_PAPERHUBADMIN_PASS'),
-    #     'HOST': 'localhost',
-    #     'PORT': '',
-    # }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'paperhubdb',
+        'USER': os.environ.get('PAPAERHUB_USER'),
+        'PASSWORD': os.environ.get('PSQL_PAPERHUBADMIN_PASS'),
+        'HOST': 'localhost',
+        'PORT': '',
+    }
 }
 
 
@@ -152,6 +153,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+# django-taggit
+TAGGIT_CASE_INSENSITIVE = True
+MAX_TAGS_ALLOWED = 5
 
 # storage for media files
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

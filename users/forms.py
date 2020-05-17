@@ -21,9 +21,10 @@ class UserRegistrationForm(UserCreationForm):
 
 	# email should be unique
 	def clean_email(self):
-		if User.objects.filter(email=self.cleaned_data.get('email', None)).exists():
+		email = self.cleaned_data.get('email', None)
+		if User.objects.filter(email=email).exists():
 			raise forms.ValidationError("This email is already registered.")
-		return self.cleaned_data.get('email', None)
+		return email
 		
 
 class UserUpdateForm(forms.ModelForm):

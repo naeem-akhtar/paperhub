@@ -6,6 +6,8 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model, get_user
 from django.contrib.contenttypes.fields import GenericRelation
 from hitcount.models import HitCountMixin, HitCount
+from taggit.managers import TaggableManager
+from taggit.models import TaggedItemBase
 
 
 User = get_user_model()
@@ -14,6 +16,10 @@ def validate_document_size(doc, limit_kb=5000):
 	file_size = doc.file.size
 	if file_size > limit_kb*1024:
 		raise ValidationError('Max allowd file size is %s KB' % limit_kb)
+
+
+class PostTag(TaggedItemBase):
+	content_object = models.ForeignKey('Post', on_delete=models.CASCADE)
 
 
 # Create your models here.
@@ -30,16 +36,18 @@ class Post(models.Model, HitCountMixin):
     HitCount,
     object_id_field='object_pk',
     related_query_name='hit_count_generic_relation'
-   )
+  )
+	tags = TaggableManager(through = PostTag, blank = True)
 	# add { likes, dislikes, bookmark, hash-tags } in future
 
 	def __str__(self):
 		return f'{self.title}'
 
 	@property
-	def bookmark_username(self):
+	def bookmark_user_id(self):
 		bookmarks = self.bookmark_set.all()
-		return [username[0] for username in bookmarks.values_list('user__username')]
+		# return [username[0] for username in bookmarks.values_list('user__username')]
+		return [user_id[0] for user_id in bookmarks.values_list('user')]
 
 	@property
 	def views(self):
@@ -62,3 +70,5 @@ class Bookmark(models.Model):
 
 	def get_absolute_url(self):
 		return reverse('bookmark', kwargs={'pk':self.post.pk})
+
+

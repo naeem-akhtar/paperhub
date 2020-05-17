@@ -15,6 +15,7 @@ from django.views.generic import (
 	DeleteView
 )
 from .models import Post, Bookmark
+from .forms import PostForm
 from .filters import PostFilter
 
 User = get_user_model()
@@ -56,11 +57,7 @@ class UserPostList(PostList):
 # Create a post
 class PostCreate(LoginRequiredMixin, CreateView):
 	model = Post
-	fields = ['title', 'description', 'document']
-
-	def form_valid(self, form):
-		form.instance.author = self.request.user
-		return super().form_valid(form)
+	form_class = PostForm
 
 	def get_success_url(self):
 		# print(self.object)
@@ -71,7 +68,7 @@ class PostCreate(LoginRequiredMixin, CreateView):
 # Update a post
 class PostUpdate(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 	model = Post
-	fields = ['title', 'description', 'document']
+	form_class = PostForm
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
