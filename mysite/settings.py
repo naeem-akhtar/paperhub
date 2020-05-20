@@ -48,12 +48,14 @@ INSTALLED_APPS = [
     'papers',
     'users',
     'posts',
+    'comments',
     'hitcount',
     'storages',
     'django_cleanup',
     'social_django',
     'django_filters',
     'taggit',
+    'mptt',
 ]
 
 MIDDLEWARE = [
@@ -170,6 +172,9 @@ AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 AWS_S3_REGION_NAME = "ap-south-1"
 AWS_DOWNLOAD_EXPIRE = '5000'    # expire time (ms) for a S3 bucket doenload link
+
+# X_Frame
+X_FRAME_OPTIONS = 'SAMEORIGIN'  # allow iframe and Jquery to load some content from other part of same website
 
 # import settings for Google login, email etc.
 from users.social_settings import *

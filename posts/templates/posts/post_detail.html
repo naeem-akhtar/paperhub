@@ -5,26 +5,32 @@
   <!-- count viwes on a post -->
   {% load hitcount_tags %}
   {% get_hit_count_js_variables for post as hitcount %}
+  <!-- to count views -->
   <script type="text/javascript">
   // console.log('JS: Bitch im in')
-  jQuery(document).ready(function($) {
-    $.ajax({
-      method: 'POST',
-      url: "{{ hitcount.ajax_url }}",
-      data: { hitcountPK : "{{ hitcount.pk }}" },
-      headers: {'X-CSRFToken': '{{ csrf_token }}'},
-      success: function(data) {
-        $('<i />').text(data.hit_counted).attr('id','hit-counted-value').appendTo('#hit-counted');
-        $('#hit-response').text(data.hit_message);
-      },
-      fail: function(data) {
-        console.log('POST failed');
-        console.log(data);
-      }
+    jQuery(document).ready(function($) {
+      $.ajax({
+        method: 'POST',
+        url: "{{ hitcount.ajax_url }}",
+        data: { hitcountPK : "{{ hitcount.pk }}" },
+        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        success: function(data) {
+          $('<i />').text(data.hit_counted).attr('id','hit-counted-value').appendTo('#hit-counted');
+          $('#hit-response').text(data.hit_message);
+        },
+        fail: function(data) {
+          console.log('POST failed');
+          console.log(data);
+        }
+      });
     });
-  });
   </script>
+  <!-- to toggle bookmark -->
   <script src="{% static 'posts/js/ajax_bookmark.js' %}" type="text/javascript"></script>
+  <!-- to load comments -->
+  <script type="text/javascript">
+    $('#comments').load("{% url 'comments' post.pk %}");
+  </script>
 {% endblock %}
 
 {% block content %}
@@ -74,10 +80,10 @@
               <i class="fa fa-eye">&nbsp</i>
               {% get_hit_count for post %} views
             </small>
-            <!-- views -->
+            <!-- date -->
             <small class="text-muted pl-2">
                <i class="fa fa-calendar">&nbsp</i>
-              {{ post.date_posted | date:"d F, Y" }}
+              {{ post.date_posted | date:"d F, y hA" }}
             </small>
           </div>
           <!-- Edit / Delete -->
@@ -104,15 +110,27 @@
           </div>
         </div>
         <div class="row text-right">
-          <div class="col disabled">
-            {% if user.is_authenticated %}
-              <a class="col btn btn-outline-success"  role="button" href="{{ post.document.url }}" download>Download</a>
-            {% else %}
-              <a style="color:inherit;" class="col btn btn-secondary" href="{% url 'login' %}" target="blank">Login to Download</a>
-            {% endif %}
-          </div>
+          {% if user.is_authenticated %}
+          <!-- download -->
+            <div class="col">
+              <button class="col btn btn-outline-success"  role="button" href="{{ post.document.url }}" download>Download</button>
+            </div>
+            <!-- comment -->
+            <div class="col">
+              <button class="col btn btn-outline-primary" style="cursor:pointer;" 
+                data-toggle="modal" 
+                data-target="#comment-modal"
+                onclick="load_modal('{% url 'post_comment' post.pk %}')"
+              >Comment</button>
+            </div>
+          {% else %}
+            <a style="color:inherit;" class="col btn btn-secondary" href="{% url 'login' %}" target="blank">Login to Download / Comment</a>
+          {% endif %}
         </div>
       </div>
+      <hr>
+      <!-- comments -->
+      <div id="comments"></div>
     </div>
   </div>
 {% endblock content %}

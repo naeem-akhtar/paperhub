@@ -1,0 +1,37 @@
+<div class="container mb-2" id="comment-{{comment.pk}}">
+	<div class="row">
+		<div class="mr-auto">
+			<strong>&#64;<a href="{% url 'profile' comment.user.username %}">{{comment.user.username}}</a></strong>
+		</div>
+		<div class="row text-right">
+			<!-- delete -->
+			{% if comment.user == user %}
+			<div class="ml-2" style="cursor: pointer;" data-toggle="modal" data-target="#comment-delete-modal"
+				onclick="load_delete_comment_modal('{{comment.comment}}', '{{comment.pk}}', '{% url 'comment-delete' comment.pk %}')">
+				<i class="fa fa-trash"></i>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<p class="mb-0">
+				{% if comment.reply_to %}
+					<strong>&#64;<a href="{% url 'profile' comment.reply_to.username %}">{{comment.reply_to.username}}</a></strong>
+				{% endif %}
+				{{comment.comment}}
+			</p>
+		</div>
+	</div>
+	<div class="row">
+		<!-- date -->
+		<div class="ml-3 mr-2">
+			<small class="text-muted">{{comment.created | date:"d M y h:i A" }}</small>
+		</div>
+		<!-- reply -->
+		<div class="text-left" style="cursor:pointer;" data-toggle="modal" data-target="#comment-modal"
+			onclick="load_modal('{% url 'comment_reply' post_id comment.pk %}', '{{comment.user.username}}')">
+		  <span class="badge badge-secondary">reply</span>
+		</div>
+	</div>
+</div>

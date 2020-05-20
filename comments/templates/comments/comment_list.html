@@ -1,0 +1,94 @@
+{% load mptt_tags %}
+
+<div class="container">
+	{% if comments %}
+		{% recursetree comments %}
+			{% with comment=node %}
+				{% include 'comments/comment_detail.html' %}
+				{% if not comment.is_leaf_node %}
+	        <div class="children ml-5">
+	          {{ children }}
+	        </div>
+		    {% endif %}
+			{% endwith %}
+		{% endrecursetree %}
+	{% else %}
+		<div class="h4 d-flex justify-content-center">
+			<p>No Comments</p>
+		</div>
+	{% endif %}
+	<!-- Comment Post Modal -->
+	<div class="modal fade" id="comment-modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="CommentModalLabel">Add a comment</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <!-- actual form for comment -->
+	      <div class="modal-body" id="modal-body">
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<!-- Comment Delete modal -->
+	<div class="modal fade" id="comment-delete-modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+	  <div class="modal-dialog modal-dialog-centered" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h5 class="modal-title" id="CommentDeleteModalLabel">Delete comment</h5>
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	          <span aria-hidden="true">&times;</span>
+	        </button>
+	      </div>
+	      <!-- actual form for comment -->
+	      <div class="modal-body" id="modal-delete-body">
+	      </div>
+	    </div>
+	  </div>
+	</div>
+</div>
+
+<script>
+	function load_modal(url, commentUser=null) {
+		let modal_body = $('#modal-body');
+		let modal_title = $('#CommentModalLabel');
+		if(commentUser)
+			modal_title.html('Reply to @' + commentUser + ' comment');
+		else
+			modal_title.html('Add a comment');
+		// console.log(url);
+		modal_body.load(url);
+	}
+
+	function load_delete_comment_modal(comment, comment_id, url) {
+		let modal_body = $('#modal-delete-body');
+		let content = `
+			<div class="modal-body" id="modal-delete-body">
+				<strong>Are you sure want to delete this comment?</strong>
+				<p>` + comment + `</p>
+				<button class="btn btn-outline-danger" onclick="delete_comment('${comment_id}', '${url}')">
+					Yes, Delete
+				</button>
+			</div>`;
+		// console.log('delete' + url);
+		modal_body.replaceWith(content);
+	}
+
+	function delete_comment(comment_id, url) {
+		$.ajax({
+	      url: url,
+	      type: 'POST',
+	      data: {'operation': 'delete comment'},
+	      headers: {'X-CSRFToken': '{{ csrf_token }}'},
+	      success: function(res){
+	        // console.log(res);
+	        if(res === '200 OK'){
+	        	$('#comment-' + comment_id).replaceWith('<div class="col"><strong>Comment Deleted</strong><div>');
+	        }
+	      }
+	    });
+	}
+</script>

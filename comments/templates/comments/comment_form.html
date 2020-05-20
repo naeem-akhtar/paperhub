@@ -1,0 +1,35 @@
+{% load crispy_forms_tags %}
+<form action="." method="POST" id="reply_form" >
+  {% csrf_token %}
+  <div class="form-group">
+    {{ comment_form | crispy }}
+  </div>
+</form>
+<!-- reply to a comment -->
+{% if parent_comment_id %}
+  <button id="comment-reply" onclick = "post_comment('{% url 'comment_reply' post_id parent_comment_id %}')" class = "btn btn-primary"> send </button>
+<!-- new comment -->
+{% else %}
+  <button id="comment-reply" onclick = "post_comment('{% url 'post_comment' post_id %}')" class = "btn btn-primary"> send </button>
+{% endif %}
+
+<script>
+  function post_comment(url){
+    let content = $('#id_comment').val();
+    console.log(content);
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: {comment: content},
+      headers: {'X-CSRFToken': '{{ csrf_token }}'},
+      success: function(res){
+        console.log(res);
+        if(res === '200 OK'){
+          // console.log(parent.location);
+          parent.location.reload();
+          // parent.append(comment);
+        }
+      }
+    });
+  }
+</script>
