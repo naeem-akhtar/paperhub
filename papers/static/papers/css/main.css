@@ -12,6 +12,17 @@ a {
   color: inherit;
 }
 
+.navbar .fa {
+  font-size: 18px;
+}
+
+.fa-bookmark {
+  color: #FFD700;
+}
+
+.bookmark {
+  font-size: 22px;
+}
 
 @media (min-width: 380px) and (max-width: 480px) {
   .fa {
