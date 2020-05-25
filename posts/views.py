@@ -60,6 +60,12 @@ class PostCreate(LoginRequiredMixin, CreateView):
 	model = Post
 	form_class = PostForm
 
+	def form_valid(self, form):
+		form.instance.author = self.request.user
+		form.instance.date_modifed = timezone.now()
+		# print(form.cleaned_data)
+		return super().form_valid(form)
+
 	def get_success_url(self):
 		# print(self.object)
 		messages.success(self.request, f'Post created for {self.object.author}')

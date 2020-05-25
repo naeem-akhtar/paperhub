@@ -63,7 +63,7 @@
       <!-- post description -->
       <div class="row">
         <div class="col">
-          <p title="Post description">{{ post.description|capfirst|truncatechars:150 }}</p>
+          <p title="Post description">{{ post.description|safe|capfirst|striptags|slice:':150' }}</p>
         </div>
       </div>
       <!-- Hash Tags -->

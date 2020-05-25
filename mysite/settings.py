@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'django_filters',
     'taggit',
     'mptt',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -175,6 +176,24 @@ AWS_DOWNLOAD_EXPIRE = '5000'    # expire time (ms) for a S3 bucket doenload link
 
 # X_Frame
 X_FRAME_OPTIONS = 'SAMEORIGIN'  # allow iframe and Jquery to load some content from other part of same website
+
+# CKEditor 
+CKEDITOR_CONFIGS = {
+    'default': {
+        'skin': 'moono',
+        'width': 'auto',
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            ['NumberedList', 'BulletedList', 'HorizontalRule'],
+            ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+            ['Link', 'Unlink'],
+            {'name': 'insert',
+                'items': ['Table', 'Smiley', 'SpecialChar', 'PageBreak']
+            },
+        ],
+    },
+}
 
 # import settings for Google login, email etc.
 from users.social_settings import *

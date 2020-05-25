@@ -106,7 +106,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <p class="">{{ post.description|capfirst }}</p>
+            {{ post.description|safe|capfirst }}
           </div>
         </div>
         <!-- Hash Tags -->
