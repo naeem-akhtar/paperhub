@@ -1,0 +1,37 @@
+{% extends "papers/base.html" %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col">
+				<h4 class="h4">#{{tag.name}}</h4>
+			</div>
+			<div class="col text-right">
+				<button class="btn btn-outline-primary" id='follow-toggle-button'>loading..</button>
+			</div>
+		</div>
+		<div class="row">
+			<p class="col">
+				{{tag.posttagextended.count}} followers
+			</p>
+		</div>
+	</div>
+	<!-- all posts with given tag -->
+	{% include 'posts/post_list.html' %}
+{% endblock content %}
+
+{% load static %}
+{% block javascript %}
+	<script src="{% static 'posts/js/ajax_bookmark.js' %}" type="text/javascript"></script>
+  <script src="{% static 'posts/js/tag_follow_toggle.js' %}" type="text/javascript"></script>
+	<script>
+		let url = '{% url 'tag-follow' tag.pk %}';
+	  $('#follow-toggle-button').ready(function() {
+	  	tag_follow_toggle(url, 'check');
+	  })
+
+	  $('#follow-toggle-button').click(function() {
+	  	tag_follow_toggle(url, 'toggle');
+	  })
+  </script>
+{% endblock %}

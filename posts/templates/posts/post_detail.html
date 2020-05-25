@@ -64,9 +64,9 @@
               {% if user.is_authenticated %}
                 <div style="cursor:pointer;" title="bookmark" class="col-1 text-right bookmark" id="bookmark-{{post.pk}}">
                   {% if user.username in post.bookmark_username %}
-                    <i class="fa fa-bookmark fa-2x" aria-hidden="true"></i>
+                    <i class="fa fa-bookmark" aria-hidden="true"></i>
                   {% else %}
-                    <i class="fa fa-bookmark-o fa-2x" aria-hidden="true"></i>
+                    <i class="fa fa-bookmark-o" aria-hidden="true"></i>
                   {% endif %}
                 </div>
               {% endif %}
@@ -77,12 +77,12 @@
           <div class="col-lg-8 col-md-8 col-sm-6 col-12 text-left">
             <!-- views -->
             <small class="text-muted" id="hit-counted-value" title="views"> 
-              <i class="fa fa-eye">&nbsp</i>
+              <i class="fa fa-eye">&nbsp;</i>
               {% get_hit_count for post %} views
             </small>
             <!-- date -->
             <small class="text-muted pl-2">
-               <i class="fa fa-calendar">&nbsp</i>
+               <i class="fa fa-calendar">&nbsp;</i>
               {{ post.date_posted | date:"d F, y hA" }}
             </small>
           </div>
@@ -109,26 +109,42 @@
             <p class="">{{ post.description|capfirst }}</p>
           </div>
         </div>
+        <!-- Hash Tags -->
+        <div class="row">
+          <div class="col">
+            {% for tag in  post.tags.all %}
+              <a style="text-decoration-line: none;" href="{% url 'tag-posts' tag.slug %}">
+                <span class="badge badge-secondary" >
+                  &#35;{{tag}}
+                </span>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+        <hr>
         <div class="row text-right">
           {% if user.is_authenticated %}
           <!-- download -->
             <div class="col">
-              <button class="col btn btn-outline-success"  role="button" href="{{ post.document.url }}" download>Download</button>
+              <a class="col btn btn-outline-success"  role="button" href="{{ post.document.url }}" download>
+                <i class="fa fa-download">&nbsp;</i>Download
+              </a>
             </div>
             <!-- comment -->
             <div class="col">
-              <button class="col btn btn-outline-primary" style="cursor:pointer;" 
+              <button class="col btn btn-outline-primary" 
                 data-toggle="modal" 
                 data-target="#comment-modal"
                 onclick="load_modal('{% url 'post_comment' post.pk %}')"
-              >Comment</button>
+              >
+                <i class="fa fa-comment">&nbsp;</i>Comment
+              </button>
             </div>
           {% else %}
             <a style="color:inherit;" class="col btn btn-secondary" href="{% url 'login' %}" target="blank">Login to Download / Comment</a>
           {% endif %}
         </div>
       </div>
-      <hr>
     </div>
   </div>
   <!-- comments -->

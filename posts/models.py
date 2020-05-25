@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model, get_user
 from django.contrib.contenttypes.fields import GenericRelation
 from hitcount.models import HitCountMixin, HitCount
 from taggit.managers import TaggableManager
-from taggit.models import TaggedItemBase
+from taggit.models import TaggedItemBase, Tag
 
 
 User = get_user_model()
@@ -72,3 +72,15 @@ class Bookmark(models.Model):
 		return reverse('bookmark', kwargs={'pk':self.post.pk})
 
 
+class PostTagExtended(models.Model):
+	tag = models.OneToOneField(Tag, on_delete = models.CASCADE)
+	# creator = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+	created = models.DateTimeField(default = timezone.now)
+	count = models.PositiveIntegerField('tag_count', default = 0)	# number of times tag is used
+	followers = models.ManyToManyField(User, related_name='tags_following')
+
+	def __str__(self):
+		return f'{self.count}'
+
+	def get_absolute_url(self):
+		return reverse('tag/<slug:tag_slug>', kwargs={'tag_slug':self.tag.slug})

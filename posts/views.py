@@ -14,6 +14,7 @@ from django.views.generic import (
 	UpdateView,
 	DeleteView
 )
+from taggit.models import Tag
 from .models import Post, Bookmark
 from .forms import PostForm
 from .filters import PostFilter
@@ -127,3 +128,54 @@ class UserBookmarkPostList(LoginRequiredMixin, UserPassesTestMixin, PostList):
 		).order_by('-date_posted')
 		self.fpost =  PostFilter(self.request.GET, queryset)
 		return self.fpost.qs
+
+
+# tag follow unfollow
+def tag_follow_toggle(request, pk):
+	if request.method == 'GET':
+		# print(request.GET)
+		operation = request.GET.get('operation', None)	# follow, unfollow, check
+		data = {'id' : pk}
+
+		try:
+			tag = Tag.objects.get(pk = pk)
+			user_id = request.user.pk
+			is_following = tag.posttagextended.followers.filter(pk = user_id).exists()
+
+			if operation == 'check':	
+				data['status'] = 'followed' if is_following else 'unfollowed'
+			elif operation == 'toggle':
+				if is_following:
+					tag.posttagextended.followers.remove(user_id)
+					data['status'] = 'unfollowed'
+				else:
+					tag.posttagextended.followers.add(user_id)
+					data['status'] = 'followed'
+			else:
+				data['status'] = 'Invalid operation'
+		except Exception as error:
+			print('Error in tag follow toggle :', error)
+			data['status'] = 'Not allowed'
+
+		return JsonResponse(data)
+	else:
+		return JsonResponse('Not a valid request')
+
+
+class TagPostList(ListView):
+	model = Post
+	template_name = 'posts/hashtag.html'
+	context_object_name = 'posts'
+	paginate_by = 10
+
+	def get_queryset(self):
+		self.tag_slug = self.kwargs.get('tag_slug', None)
+		queryset = Post.objects.filter(tags__slug__in = [self.tag_slug]).order_by('-date_posted')
+		self.fpost =  PostFilter(self.request.GET, queryset)
+		return self.fpost.qs
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['filter'] = self.fpost
+		context['tag'] = Tag.objects.get(slug = self.tag_slug)
+		return context

@@ -1,6 +1,8 @@
 from django.urls import path, include
 from .views import (
-	PostList, PostDetail, UserPostList, PostCreate, PostUpdate, PostDelete, PostBookmark, UserBookmarkPostList
+	PostList, PostDetail, UserPostList, PostCreate, 
+	PostUpdate, PostDelete, PostBookmark, UserBookmarkPostList,
+	tag_follow_toggle, TagPostList,
 )
 
 urlpatterns = [
@@ -12,6 +14,8 @@ urlpatterns = [
 	path('post/<int:pk>/', PostDetail.as_view(), name='post-detail'),	# a single post
   path('post/<int:pk>/update/', PostUpdate.as_view(), name='post-update'), # update this post
   path('post/<int:pk>/delete/', PostDelete.as_view(), name='post-delete'), # delete this post
+  path('tag/<slug:tag_slug>/', TagPostList.as_view() , name='tag-posts'),
+  path('tag/<int:pk>/follow', tag_follow_toggle, name='tag-follow'),	# check, toggle
   # hit counter for counting views
   path('hitcount/', include('hitcount.urls', namespace='hitcount')),
 ]
