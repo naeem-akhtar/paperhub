@@ -29,9 +29,11 @@
 			<small class="text-muted">{{comment.created | date:"d M y h:i A" }}</small>
 		</div>
 		<!-- reply -->
-		<div class="text-left" style="cursor:pointer;" data-toggle="modal" data-target="#comment-modal"
-			onclick="load_modal('{% url 'comment_reply' post_id comment.pk %}', '{{comment.user.username}}')">
-		  <span class="badge badge-secondary">reply</span>
-		</div>
+		{% if user.is_authenticated %}
+			<div class="text-left" style="cursor:pointer;" data-toggle="modal" data-target="#comment-modal"
+				onclick="load_modal('{% url 'comment_reply' post_id comment.pk %}', '{{comment.user.username}}')">
+			  <span class="badge badge-secondary">reply</span>
+			</div>
+		{% endif %}
 	</div>
 </div>
